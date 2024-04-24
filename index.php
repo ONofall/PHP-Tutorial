@@ -33,9 +33,10 @@ $pizzas = mysqli_fetch_all($result, MYSQLI_ASSOC);
                                 <li><?php echo htmlspecialchars($ing) ?></li>
                             <?php } ?>
                         </ul>
+
                     </div>
                     <div class="card-action right-align">
-                        <a href="#" class="brand-text">more info</a>
+                        <a href="details.php?id=<?php echo  $pizza['id']?>" class="brand-text">more info</a>
                     </div>
                 </div>
             </div>
