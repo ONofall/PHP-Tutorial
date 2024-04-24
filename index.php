@@ -26,6 +26,7 @@ $pizzas = mysqli_fetch_all($result, MYSQLI_ASSOC);
         <?php foreach ($pizzas as $pizza) { ?>
             <div class="col s6 md">
                 <div class="card z-depth-0">
+                    <img src="img/pizza.svg" class="pizza">
                     <div class="card-content center">
                         <h6><?php echo htmlspecialchars($pizza['title']); ?></h6>
                         <ul>
