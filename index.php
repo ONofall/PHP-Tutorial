@@ -1,10 +1,7 @@
 <?php
+global $conn;
+include ('config/dp_connect.php');
 //connect to database
-$conn = mysqli_connect("localhost", "pizza", "test123", "Nofal_pizza");
-//check the connection
-if (!$conn) {
-    echo "Error: Unable to connect to MySQL." . mysqli_connect_error();
-}
 // write query for all pizzas
 $sql = "SELECT title, ingredients, id FROM pizzas ORDER BY created_at";
 // make query & get result
@@ -12,6 +9,9 @@ $result = mysqli_query($conn, $sql);
 // fetch the resulting rows as an array
 $pizzas = mysqli_fetch_all($result, MYSQLI_ASSOC);
 //print_r($pizzas);
+
+// to make ingredients arrays
+//explode(',', $pizzas[0]['ingredients']);
 ?>
 
 <!DOCTYPE html>
@@ -23,20 +23,27 @@ $pizzas = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 <div class="container">
     <div class="row">
-
         <?php foreach ($pizzas as $pizza) { ?>
-
             <div class="col s6 md">
                 <div class="card z-depth-0">
                     <div class="card-content center">
                         <h6><?php echo htmlspecialchars($pizza['title']); ?></h6>
-                        <div><?php echo htmlspecialchars($pizza['ingredients']); ?></div>
+                        <ul>
+                            <?php foreach (explode(',', $pizza['ingredients']) as $ing) { ?>
+                                <li><?php echo htmlspecialchars($ing) ?></li>
+                            <?php } ?>
+                        </ul>
                     </div>
                     <div class="card-action right-align">
                         <a href="#" class="brand-text">more info</a>
                     </div>
                 </div>
             </div>
+        <?php } ?>
+        <?php if (count($pizzas) >= 3) { ?>
+            <p>There are 2 or more pizzas</p>
+        <?php } else { ?>
+            <p>There are less than 3 pizzas</p>
         <?php } ?>
     </div>
 </div>

@@ -1,5 +1,6 @@
-
 <?php
+global $conn;
+include ('config/dp_connect.php');
 //define('NAME','yoshi');
 //
 ////$name = "nice";
@@ -51,6 +52,7 @@
 //    echo $_GET['title'];
 //    echo $_GET['ingredients'];
 //}
+
 $title = $email = $ingredients = '';
 $errors = array('email'=>'', 'title'=> '', 'ingredients'=>'');
 if (isset($_POST['submit'])) {
@@ -75,17 +77,27 @@ if (isset($_POST['submit'])) {
     }
     if (empty($_POST['ingredients'])) {
         $errors['ingredients'] = "Ingredients is required <br />";
-    } else {
+    } else{
         $ingredients = $_POST['ingredients'];
-        if (!preg_match("/^[a-zA-Z\s ]+$/", $ingredients)) {
-            $errors['ingredients'] = "Only letters and white space allowed";
+        if(!preg_match('/^([a-zA-Z\s]+)(,\s*[a-zA-Z\s]*)*$/', $ingredients)){
+            $errors['ingredients'] = 'Ingredients must be a comma separated list';
         }
     }
 
     if(array_filter($errors)){
         echo "There was an error";
     }else{
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $title = mysqli_real_escape_string($conn, $_POST['title']);
+        $ingredients = mysqli_real_escape_string($conn, $_POST['ingredients']);
+
+        $sql = "INSERT INTO pizzas (email, title, ingredients) VALUES ('$email', '$title', '$ingredients')";
 //        echo "Thank you!";
+        if (mysqli_query($conn, $sql)) {
+
+        }else{
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
         header('location: index.php');
     }
 }
