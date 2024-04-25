@@ -1,3 +1,12 @@
+<?php
+session_start();
+if($_SERVER['QUERY_STRING'] == 'noname'){
+    session_unset();
+};
+$name = $_SESSION['name'] ?? 'Guest';
+//header('location: index.php');
+?>
+
 <head>
 	<title>Nofal's Pizza</title>
 	<!-- Compiled and minified CSS -->
@@ -28,6 +37,7 @@
     <div class="container">
       <a href="/index.php" class="brand-logo brand-text">Nofal Pizza</a>
       <ul id="nav-mobile" class="right hide-on-small-and-down">
+          <li > <a  class="grey-text" href='/sandbox.php'>Hello <?php echo htmlspecialchars($name) ?></a></li>
         <li><a href="/add.php" class="btn brand z-depth-0">Add a Pizza</a></li>
       </ul>
     </div>
